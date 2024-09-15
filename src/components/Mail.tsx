@@ -31,24 +31,27 @@ const Contact: React.FC = () => {
 
 
 
-  const onSubmit = async (data: ContactFormInputs) => {
+ const emailLink = 'https://jsonplaceholder.typicode.com/posts'; // Dummy API for testing
+  
+  const onSubmit = async (data) => {
     setLoading(true);
     try {
       const res = await axios.post(emailLink, data);
-      if (res?.data?.ok) {
-        toast.success('Thanks we got your mail');
+      if (res?.status === 201) { // 201 is the created status in the dummy API
+        toast.success('Thanks, we got your mail');
         setLoading(false);
-        reset();
+        reset(); // Assuming you have a form reset method
       } else {
         setLoading(false);
-        toast.error('something went wrong');
+        toast.error('Something went wrong');
       }
     } catch (err) {
       setLoading(false);
-      toast.error('something went wrong');
-      console.log(err);
+      toast.error('Something went wrong');
+      console.error(err);
     }
   };
+  
 
   return (
     <article>
